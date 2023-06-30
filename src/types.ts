@@ -1,12 +1,14 @@
 import { z } from 'zod';
 
-const projectSchema = z.object({
-  repo: z.string(),
-  link: z.string(),
-  description: z.string(),
+const repoSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  private: z.boolean(),
+  html_url: z.string(),
+  description: z.string().nullable(),
 })
 
-export type Project = z.infer<typeof projectSchema>
+export type Repo = z.infer<typeof repoSchema>
 
 export type Site = {
   website: string;

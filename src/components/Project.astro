@@ -1,14 +1,18 @@
 ---
-import type { Project } from "../types";
+import type { Repo} from "../types";
 import Card from "./Card";
 import LinkButton from "./LinkButton.astro";
 
 type Props = {
-    project: Project;
+    repo: Repo
 };
 
 const {
-    project: { repo: name, description, link },
+    repo: {
+        name,
+        description,
+        html_url: link,
+    }
 } = Astro.props;
 ---
 
