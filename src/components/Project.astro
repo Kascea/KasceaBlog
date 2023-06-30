@@ -1,0 +1,24 @@
+---
+import type { Project } from "../types";
+import Card from "./Card";
+import LinkButton from "./LinkButton.astro";
+
+type Props = {
+    project: Project;
+};
+
+const {
+    project: { repo: name, description, link },
+} = Astro.props;
+---
+
+<Card
+    href={link}
+    frontmatter={{
+        title: name,
+        description,
+        pubDatetime: new Date(),
+        tags: ["GitHub"],
+    }},
+    secHeading={false}
+/>

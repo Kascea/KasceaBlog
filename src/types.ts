@@ -1,3 +1,13 @@
+import { z } from 'zod';
+
+const projectSchema = z.object({
+  repo: z.string(),
+  link: z.string(),
+  description: z.string(),
+})
+
+export type Project = z.infer<typeof projectSchema>
+
 export type Site = {
   website: string;
   author: string;
@@ -7,6 +17,7 @@ export type Site = {
   lightAndDarkMode: boolean;
   postPerPage: number;
 };
+
 
 export type SocialObjects = {
   name: SocialMedia;
