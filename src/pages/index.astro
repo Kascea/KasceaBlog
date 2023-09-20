@@ -17,7 +17,7 @@ const posts = await getCollection("blog");
 const sortedPosts = getSortedPosts(posts);
 const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
 
-const projects = await getRepos(6);
+const projects = await getRepos(4);
 
 const socialCount = SOCIALS.filter(social => social.active).length;
 ---
@@ -29,11 +29,9 @@ const socialCount = SOCIALS.filter(social => social.active).length;
       <h1>Cole Carlson</h1>
       <p>
         I'm a 22 year old Full-Stack Software Engineer from Minnesota. I love building web application using C#, ASP .Net Core, React, TypeScript,
-        and TailwindCSS. 
+        and TailwindCSS. I'm currently working as a Software Engineer at <a href="https://www.collinsaerospace.com/">Collins Aerospace</a> in Minneapolis, MN.
       </p>
-      <p>
-        I'm currently working as a Software Engineer at <a href="https://www.collinsaerospace.com/">Collins Aerospace</a> in Minneapolis, MN.
-      </p>
+
       <p>
         I'm an avid gym goer and am always looking for ways to improve myself.  Feel free to reach out to me on any of my socials below!
       </p>
