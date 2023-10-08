@@ -11,6 +11,7 @@ const {
     repo: {
         name,
         description,
+        stargazers_count,
         html_url: link,
     }
 } = Astro.props;
@@ -20,7 +21,8 @@ const {
     href={link}
     frontmatter={{
         title: name,
-        description,
+        description: description,
+        stargazers_count: stargazers_count,
         pubDatetime: new Date(),
         tags: ["GitHub"],
     }},

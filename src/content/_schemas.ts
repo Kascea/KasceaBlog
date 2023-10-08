@@ -10,7 +10,8 @@ export const blogSchema = z
     draft: z.boolean().optional(),
     tags: z.array(z.string()).default(["others"]),
     ogImage: z.string().optional(),
-    description: z.string().optional(),
+    description: z.string().nullable(),
+    stargazers_count: z.number().optional(),
   })
   .strict();
 

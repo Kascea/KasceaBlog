@@ -6,6 +6,7 @@ const repoSchema = z.object({
   private: z.boolean(),
   html_url: z.string(),
   description: z.string().nullable(),
+  stargazers_count: z.number(),
 })
 
 export type Repo = z.infer<typeof repoSchema>
