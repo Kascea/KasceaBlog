@@ -7,7 +7,7 @@ export const SITE: Site = {
   title: "Kascea",
   ogImage: "astropaper-og.jpg",
   lightAndDarkMode: true,
-  postPerPage: 3,
+  postPerPage: 7,
 };
 
 export const LOCALE = ["en-EN"]; // set to [] to use the environment default

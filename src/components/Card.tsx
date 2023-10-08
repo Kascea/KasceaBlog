@@ -1,6 +1,6 @@
 import Datetime from "./Datetime";
 import type { BlogFrontmatter } from "@content/_schemas";
-import socialIcons from "@assets/socialIcons";
+import socialIcons from "@assets/socialIcons"; 
 
 
 
@@ -35,19 +35,17 @@ export default function Card({ href, frontmatter, secHeading = true }: Props) {
           <div className="flex items-center space-x-1 opacity-80">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              width="1"
-              height="1"
-              viewBox="0 0 100 100"
+              className="icon-tabler"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
             >
-              <path
-                d="M50,10 L61.8,35.4 L90,41 L70,61 L76.4,89 L50,75 L23.6,89 L30,61 L10,41 L38.2,35.4 Z"
-                fill="none"
-                stroke="black"
-                strokeWidth="8"
-              />
+              <path d="M12 2 L14.37 8.62 L21 9.24 L16.62 13.12 L18 19 L12 16.62 L6 19 L7.38 13.12 L3 9.24 L9.63 8.62 L12 2 Z" />
             </svg>
+
             <span>{stargazers_count}</span>
           </div>
         ) : null}
