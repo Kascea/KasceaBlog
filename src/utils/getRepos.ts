@@ -10,21 +10,12 @@ const repoSchema = z.object({
   stargazers_count: z.number(),
 })
 
-const accessToken = "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";
 const apiUrl = "https://api.github.com/users/Kascea/repos";
-
-const headers = {
-  Authorization: '\'token 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\'',
-  Accept: 'application/vnd.github.v3+json',
-}
 
 export async function getRepos(
   number: 1 | 2 | 3 | 4 | 5 | 6,
 ): Promise<Repo[]> {
-  const res = await fetch(apiUrl, {
-    method: 'GET',
-    headers: headers,
-  })
+  const res = await fetch(apiUrl)
   .then(
     res => res.json(),
   )
