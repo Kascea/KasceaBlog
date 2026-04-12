@@ -19,6 +19,7 @@ export async function getRepos(
   .then(
     res => res.json(),
   )
+  //if fails get from file system
 
   const repos = repoSchema.array().parse(res).filter(repo => !repo.private).sort((a, b) => b.stargazers_count - a.stargazers_count);
 

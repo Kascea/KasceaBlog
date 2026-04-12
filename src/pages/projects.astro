@@ -1,0 +1,23 @@
+---
+import Layout from "@layouts/Layout.astro";
+import Main from "@layouts/Main.astro";
+import Header from "@components/Header.astro";
+import Footer from "@components/Footer.astro";
+import Project from "@components/Project.astro";
+import { getRepos } from "@utils/getRepos";
+import { SITE } from "@config";
+
+const projects = await getRepos(6);
+---
+
+<Layout title={`Projects | ${SITE.title}`}>
+  <Header activeNav="projects" />
+  <Main pageTitle="Projects" pageDesc="My open source work on GitHub.">
+    <ul>
+      {projects.map(repo => (
+        <Project repo={repo} />
+      ))}
+    </ul>
+  </Main>
+  <Footer />
+</Layout>

@@ -1,0 +1,102 @@
+---
+import Layout from "@layouts/Layout.astro";
+import Main from "@layouts/Main.astro";
+import Header from "@components/Header.astro";
+import Footer from "@components/Footer.astro";
+import { SITE } from "@config";
+---
+
+<Layout title={`Work | ${SITE.title}`}>
+  <Header activeNav="work" />
+  <Main pageTitle="Work" pageDesc="My professional experience.">
+    <section id="work-experience">
+
+      <div class="job">
+        <div class="job-header">
+          <div class="job-title-group">
+            <h2>Collins Aerospace</h2>
+            <span class="job-location">Burnsville, MN</span>
+          </div>
+        </div>
+
+        <div class="role">
+          <div class="role-header">
+            <h3>Software Engineer I</h3>
+            <span class="role-dates">May 2023 &ndash; Present</span>
+          </div>
+          <ul>
+            <li>
+              Developed a customized C# (MVVM) template for in-house team usage in the creation of WPF applications, resulting in a 50% reduction in initial
+              project setup, improved code consistency, and project maintainability.
+            </li>
+            <li>
+              Constructed an ASP.NET Core web application to facilitate CRUD operations on an internal Oracle database, streamlining data management
+              and enhancing data accessibility and decision-making.
+            </li>
+            <li>
+              Engineered a WPF Quality Containment Tool to orchestrate and streamline the containment process across multiple manufacturing sites, resulting in a 30% reduction in containment process time, improving quality control and reducing operational costs.
+            </li>
+          </ul>
+        </div>
+
+        <div class="role">
+          <div class="role-header">
+            <h3>Software Engineer Co-op</h3>
+            <span class="role-dates">Jan. 2022 &ndash; May 2023</span>
+          </div>
+          <ul>
+            <li>
+              Assisted in updating application suite to ensure compatibility with the transition to Oracle 19 database, logging and manually migrating
+              documents that encountered migration failures, guaranteeing a seamless and error-free transition.
+            </li>
+            <li>
+              Designed and implemented a new C# WPF application that standardized the CACT process, decreasing process time by 57% for the customer contract team.
+            </li>
+            <li>
+              Developed an ASP.NET and jQuery-powered user workflow page, automating part disposition recommendations within the quality containment
+              process, resulting in a 25% reduction in manual decision-making errors.
+            </li>
+          </ul>
+        </div>
+      </div>
+
+    </section>
+  </Main>
+  <Footer />
+</Layout>
+
+<style>
+  #work-experience {
+    @apply space-y-10;
+  }
+  .job {
+    @apply space-y-6;
+  }
+  .job-header {
+    @apply flex flex-wrap items-baseline gap-x-3;
+  }
+  .job-title-group {
+    @apply flex flex-wrap items-baseline gap-x-3;
+  }
+  .job-title-group h2 {
+    @apply text-xl font-bold;
+  }
+  .job-location {
+    @apply text-sm opacity-70;
+  }
+  .role {
+    @apply space-y-2;
+  }
+  .role-header {
+    @apply flex flex-wrap items-baseline gap-x-3;
+  }
+  .role-header h3 {
+    @apply font-semibold text-skin-accent;
+  }
+  .role-dates {
+    @apply text-sm opacity-70;
+  }
+  .role ul {
+    @apply list-disc space-y-2 pl-5 text-sm leading-relaxed;
+  }
+</style>

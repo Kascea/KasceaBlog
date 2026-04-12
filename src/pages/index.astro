@@ -1,42 +1,27 @@
 ---
-import { getCollection } from "astro:content";
 import Layout from "@layouts/Layout.astro";
 import Header from "@components/Header.astro";
 import Footer from "@components/Footer.astro";
-import LinkButton from "@components/LinkButton.astro";
 import Hr from "@components/Hr.astro";
-import Card from "@components/Card";
 import Socials from "@components/Socials.astro";
-import Project from "@components/Project.astro";
-import getSortedPosts from "@utils/getSortedPosts";
-import slugify from "@utils/slugify";
-import { getRepos} from "@utils/getRepos";
 import { SOCIALS } from "@config";
-
-const posts = await getCollection("blog");
-const sortedPosts = getSortedPosts(posts);
-const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
-
-const projects = await getRepos(4);
 
 const socialCount = SOCIALS.filter(social => social.active).length;
 ---
 
 <Layout>
-  <Header />
+  <Header activeNav="about" />
   <main id="main-content">
     <section id="hero">
       <h1>Cole Carlson</h1>
       <p>
-        I'm a 22 year old Full-Stack Software Engineer from Minnesota. I love building web application using C#, ASP .Net Core, React, TypeScript,
+        I'm a Full-Stack Software Engineer from Minnesota. I love building web applications using C#, ASP .NET Core, React, TypeScript,
         and TailwindCSS. I'm currently working as a Software Engineer at <a href="https://www.collinsaerospace.com/">Collins Aerospace</a> in Minneapolis, MN.
       </p>
-
       <p>
-        I'm an avid gym goer and am always looking for ways to improve myself.  Feel free to reach out to me on any of my socials below!
+        I'm an avid gym goer and am always looking for ways to improve myself. Feel free to reach out to me on any of my socials below!
       </p>
       {
-        // only display if at least one social link is enabled
         socialCount > 0 && (
           <div class="social-wrapper">
             <div class="social-links">Social Links:</div>
@@ -48,80 +33,39 @@ const socialCount = SOCIALS.filter(social => social.active).length;
 
     <Hr />
 
-    <!-- {
-      featuredPosts.length > 0 && (
-        <>
-          <section id="featured">
-            <h2>Featured</h2>
-            <ul>
-              {featuredPosts.map(({ data }) => (
-                <Card
-                  href={`/posts/${slugify(data)}`}
-                  frontmatter={data}
-                  secHeading={false}
-                />
-              ))}
-            </ul>
-          </section>
-          <Hr />
-        </>
-      )
-    } -->
+    <section id="skills">
+      <h2>Skills</h2>
+      <div class="skills-grid">
+        <div class="skill-group">
+          <h3>Languages</h3>
+          <p>JavaScript / TypeScript, C#, Java, Python, C, SQL, HTML, CSS</p>
+        </div>
+        <div class="skill-group">
+          <h3>Databases</h3>
+          <p>MySQL, MongoDB / NoSQL, Oracle, SQL Server</p>
+        </div>
+        <div class="skill-group">
+          <h3>Frameworks &amp; Tools</h3>
+          <p>React, Vue, jQuery, React Native, .NET Core, Spring, Django, Entity Framework, Git, Jira</p>
+        </div>
+      </div>
+    </section>
 
     <Hr />
 
-    {
-      projects.length > 0 && (
-        <>
-          <section id="projects">
-            <h2>Featured Projects</h2>
-            <ul>
-              {projects.map(repo => (
-                <Project repo={repo} />
-              ))}
-            </ul>
-            <div class="all-posts-btn-wrapper">
-              <LinkButton href="https://github.com/Kascea?tab=repositories">
-                View Repositories
-                <svg xmlns="http://www.w3.org/2000/svg"
-                  ><path
-                    d="m11.293 17.293 1.414 1.414L19.414 12l-6.707-6.707-1.414 1.414L15.586 11H6v2h9.586z"
-                  ></path>
-                </svg>
-              </LinkButton>
-            </div>
-          </section>
-        </>
-      )
-    }
-
-    <Hr/>
-
-    <section id="recent-posts">
-      <h2>Recent Posts</h2>
-      <ul>
-        {
-          sortedPosts.map(
-            ({ data }, index) =>
-              index < 4 && (
-                <Card
-                  href={`/posts/${slugify(data)}`}
-                  frontmatter={data}
-                  secHeading={false}
-                />
-              )
-          )
-        }
-      </ul>
-      <div class="all-posts-btn-wrapper">
-        <LinkButton href="/posts">
-          All Posts
-          <svg xmlns="http://www.w3.org/2000/svg"
-            ><path
-              d="m11.293 17.293 1.414 1.414L19.414 12l-6.707-6.707-1.414 1.414L15.586 11H6v2h9.586z"
-            ></path>
-          </svg>
-        </LinkButton>
+    <section id="education">
+      <h2>Education</h2>
+      <div class="edu-entry">
+        <div class="edu-header">
+          <h3>University of St. Thomas</h3>
+          <span class="edu-location">St. Paul, MN</span>
+        </div>
+        <p class="edu-degree">B.S. in Computer Science &mdash; Minor in Electrical Engineering</p>
+        <p class="edu-dates">Sep. 2019 &ndash; May 2023</p>
+        <ul>
+          <li>Dean's List (Fall 2021 &ndash; Spring 2023)</li>
+          <li>GPA: 3.8</li>
+        </ul>
       </div>
     </section>
   </main>
@@ -130,18 +74,17 @@ const socialCount = SOCIALS.filter(social => social.active).length;
 </Layout>
 
 <style>
+  /* ===== Main wrapper ===== */
+  #main-content {
+    @apply mx-auto w-full max-w-3xl px-4 pb-12;
+  }
+
   /* ===== Hero Section ===== */
   #hero {
     @apply pb-6 pt-8;
   }
   #hero h1 {
     @apply my-4 inline-block text-3xl font-bold sm:my-8 sm:text-5xl;
-  }
-  #hero .rss-link {
-    @apply mb-6;
-  }
-  #hero .rss-icon {
-    @apply mb-2 h-6 w-6 scale-110 fill-skin-accent sm:mb-3 sm:scale-125;
   }
   #hero p {
     @apply my-2;
@@ -153,18 +96,49 @@ const socialCount = SOCIALS.filter(social => social.active).length;
     @apply mb-1 mr-2 whitespace-nowrap sm:mb-0;
   }
 
-  /* ===== Featured & Recent Posts & Projects Sections ===== */
-  #featured,
-  #projects,
-  #recent-posts {
+  /* ===== Skills Section ===== */
+  #skills {
     @apply pb-6 pt-12;
   }
-  #featured h2,
-  #projects h2,
-  #recent-posts h2 {
+  #skills h2 {
     @apply text-2xl font-semibold tracking-wide;
   }
-  .all-posts-btn-wrapper {
-    @apply my-8 text-center;
+  .skills-grid {
+    @apply mt-4 space-y-4;
+  }
+  .skill-group h3 {
+    @apply text-base font-semibold text-skin-accent;
+  }
+  .skill-group p {
+    @apply mt-1 text-sm;
+  }
+
+  /* ===== Education Section ===== */
+  #education {
+    @apply pb-12 pt-12;
+  }
+  #education h2 {
+    @apply text-2xl font-semibold tracking-wide;
+  }
+  .edu-entry {
+    @apply mt-4;
+  }
+  .edu-header {
+    @apply flex flex-wrap items-baseline gap-x-3;
+  }
+  .edu-header h3 {
+    @apply text-lg font-semibold;
+  }
+  .edu-location {
+    @apply text-sm opacity-70;
+  }
+  .edu-degree {
+    @apply mt-1 font-medium;
+  }
+  .edu-dates {
+    @apply text-sm opacity-70;
+  }
+  #education ul {
+    @apply mt-2 list-disc space-y-1 pl-5 text-sm;
   }
 </style>
