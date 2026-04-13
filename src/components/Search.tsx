@@ -1,8 +1,8 @@
 import Fuse from "fuse.js";
 import { useEffect, useRef, useState, useMemo } from "react";
-import Card from "@components/Card";
 import slugify from "@utils/slugify";
 import type { BlogFrontmatter } from "@content/_schemas";
+import { LOCALE } from "@config";
 
 export type SearchItem = {
   title: string;
@@ -17,6 +17,77 @@ interface Props {
 interface SearchResult {
   item: SearchItem;
   refIndex: number;
+}
+
+function SearchCard({
+  href,
+  frontmatter,
+}: {
+  href: string;
+  frontmatter: BlogFrontmatter;
+}) {
+  const { title, pubDatetime, description, stargazers_count } = frontmatter;
+
+  const myDatetime = new Date(pubDatetime);
+  const date = myDatetime.toLocaleDateString(LOCALE, {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+  const time = myDatetime.toLocaleTimeString(LOCALE, {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+
+  return (
+    <li className="my-6">
+      <a
+        href={href}
+        className="inline-block text-lg font-medium text-skin-accent decoration-dashed underline-offset-4 focus-visible:no-underline focus-visible:underline-offset-0"
+      >
+        <h2 className="text-lg font-medium decoration-dashed hover:underline">
+          {title}
+        </h2>
+      </a>
+      <div className="text-skin-muted flex items-center space-x-4 text-sm">
+        <div className="flex items-center space-x-2 opacity-80">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="inline-block h-6 w-6 scale-90 fill-skin-base"
+            aria-hidden="true"
+          >
+            <path d="M7 11h2v2H7zm0 4h2v2H7zm4-4h2v2h-2zm0 4h2v2h-2zm4-4h2v2h-2zm0 4h2v2h-2z"></path>
+            <path d="M5 22h14c1.103 0 2-.897 2-2V6c0-1.103-.897-2-2-2h-2V2h-2v2H9V2H7v2H5c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2zM19 8l.001 12H5V8h14z"></path>
+          </svg>
+          <span className="sr-only">Posted on:</span>
+          <span className="text-sm italic">
+            {date}
+            <span aria-hidden="true"> | </span>
+            <span className="sr-only">&nbsp;at&nbsp;</span>
+            {time}
+          </span>
+        </div>
+        {stargazers_count ? (
+          <div className="flex items-center space-x-1 opacity-80">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="icon-tabler"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
+              <path d="M12 2 L14.37 8.62 L21 9.24 L16.62 13.12 L18 19 L12 16.62 L6 19 L7.38 13.12 L3 9.24 L9.63 8.62 L12 2 Z" />
+            </svg>
+            <span>{stargazers_count}</span>
+          </div>
+        ) : null}
+      </div>
+      <p>{description}</p>
+    </li>
+  );
 }
 
 export default function SearchBar({ searchList }: Props) {
@@ -82,9 +153,9 @@ export default function SearchBar({ searchList }: Props) {
           </svg>
         </span>
         <input
-          className="block w-full rounded border border-skin-fill 
+          className="block w-full rounded border border-skin-fill
         border-opacity-40 bg-skin-fill py-3 pl-10
-        pr-3 placeholder:italic placeholder:text-opacity-75 
+        pr-3 placeholder:italic placeholder:text-opacity-75
         focus:border-skin-accent focus:outline-none"
           placeholder="Search for anything..."
           type="text"
@@ -110,7 +181,7 @@ export default function SearchBar({ searchList }: Props) {
       <ul>
         {searchResults &&
           searchResults.map(({ item, refIndex }) => (
-            <Card
+            <SearchCard
               href={`/posts/${slugify(item.data)}`}
               frontmatter={item.data}
               key={`${refIndex}-${slugify(item.data)}`}
