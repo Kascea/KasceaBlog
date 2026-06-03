@@ -1,4 +1,4 @@
-import type { Site, SocialObjects } from "./types";
+import type { ProjectsConfig, Site, SocialObjects } from "./types";
 
 export const SITE: Site = {
   website: "https://astro-paper.pages.dev/",
@@ -17,6 +17,13 @@ export const LOGO_IMAGE = {
   svg: true,
   width: 216,
   height: 46,
+};
+
+export const PROJECTS: ProjectsConfig = {
+  githubUsername: "Kascea",
+  reposToShow: 6,
+  pinnedRepoNames: ["basalt", "stepthrough", "kascea"],
+  commonLanguagesToShow: 5,
 };
 
 export const SOCIALS: SocialObjects = [
@@ -43,5 +50,5 @@ export const SOCIALS: SocialObjects = [
     href: "mailto:cole@kascea.com",
     linkTitle: `Send an email to ${SITE.title}`,
     active: true,
-  }
+  },
 ];

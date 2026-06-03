@@ -1,15 +1,32 @@
-import { z } from 'zod';
+export type Repo = {
+  id: number;
+  name: string;
+  private: boolean;
+  html_url: string;
+  description: string | null;
+  stargazers_count: number;
+  languages_url: string;
+  languageBreakdown?: RepoLanguageShare[];
+};
 
-const repoSchema = z.object({
-  id: z.number(),
-  name: z.string(),
-  private: z.boolean(),
-  html_url: z.string(),
-  description: z.string().nullable(),
-  stargazers_count: z.number(),
-})
+export type RepoLanguageShare = {
+  language: string;
+  percentage: number;
+};
 
-export type Repo = z.infer<typeof repoSchema>
+export type ProjectData = {
+  pinnedRepos: Repo[];
+  otherRepos: Repo[];
+  commonLanguages: string[];
+  fetchError?: string;
+};
+
+export type ProjectsConfig = {
+  githubUsername: string;
+  reposToShow: 1 | 2 | 3 | 4 | 5 | 6;
+  pinnedRepoNames: string[];
+  commonLanguagesToShow: number;
+};
 
 export type Site = {
   website: string;
@@ -20,7 +37,6 @@ export type Site = {
   lightAndDarkMode: boolean;
   postPerPage: number;
 };
-
 
 export type SocialObjects = {
   name: SocialMedia;

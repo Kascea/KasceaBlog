@@ -1,30 +1,93 @@
 ---
-import type { Repo} from "../types";
-import Card from "./Card.astro";
-import LinkButton from "./LinkButton.astro";
+import type { Repo } from "../types";
 
 type Props = {
-    repo: Repo
+  repo: Repo;
 };
 
 const {
-    repo: {
-        name,
-        description,
-        stargazers_count,
-        html_url: link,
-    }
+  repo: { name, description, stargazers_count, html_url: link, languageBreakdown = [] },
 } = Astro.props;
+
+const visibleLanguages = languageBreakdown.slice(0, 4);
+const visibleLanguagePercentage = visibleLanguages.reduce(
+  (total, { percentage }) => total + percentage,
+  0
+);
+const otherLanguagePercentage = Math.max(0, 100 - visibleLanguagePercentage);
+
+const languageSegments =
+  otherLanguagePercentage > 0
+    ? [...visibleLanguages, { language: "Other", percentage: otherLanguagePercentage }]
+    : visibleLanguages;
 ---
 
-<Card
-    href={link}
-    frontmatter={{
-        title: name,
-        description: description,
-        stargazers_count: stargazers_count,
-        pubDatetime: new Date(),
-        tags: ["GitHub"],
-    }},
-    secHeading={false}
-/>
+<li class="project-row">
+  <h3>
+    <a href={link} class="project-title">{name}</a>
+  </h3>
+
+  <div class="project-meta">
+    <span class="project-stars" aria-label={`${stargazers_count} stars`}>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="project-star"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <path d="M12 2 L14.37 8.62 L21 9.24 L16.62 13.12 L18 19 L12 16.62 L6 19 L7.38 13.12 L3 9.24 L9.63 8.62 L12 2 Z" />
+      </svg>
+      {stargazers_count}
+    </span>
+  </div>
+
+  {description && <p class="project-description">{description}</p>}
+
+  {
+    languageSegments.length > 0 ? (
+      <p class="language-summary" aria-label={`Language breakdown for ${name}`}>
+        {languageSegments.map(({ language, percentage }) => `${language} ${percentage}%`).join(" · ")}
+      </p>
+    ) : (
+      <p class="language-empty">Language data unavailable.</p>
+    )
+  }
+</li>
+
+<style>
+  .project-row {
+    @apply my-6 border-b border-skin-line pb-6 last:border-b-0;
+  }
+
+  .project-title {
+    @apply text-lg font-medium text-skin-accent decoration-dashed underline-offset-4 hover:underline;
+  }
+
+  .project-meta {
+    @apply mt-1 flex min-w-0 flex-wrap items-center gap-x-4 gap-y-1;
+  }
+
+  .project-stars {
+    @apply inline-flex items-center gap-1 text-sm opacity-80;
+  }
+
+  .project-star {
+    @apply h-4 w-4;
+  }
+
+  .project-description {
+    @apply mt-2 opacity-90;
+  }
+
+  .language-summary {
+    @apply mt-2 text-sm opacity-80;
+  }
+
+  .language-empty {
+    @apply mt-3 text-xs italic opacity-70;
+  }
+</style>

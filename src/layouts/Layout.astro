@@ -3,7 +3,6 @@ import { SITE } from "@config";
 import "@styles/base.css";
 import { getCollection } from "astro:content";
 import SearchOverlay from "@components/SearchOverlay";
-import { ClientRouter } from "astro:transitions";
 
 const googleSiteVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION;
 
@@ -78,7 +77,6 @@ const socialImageURL = new URL(
     }
 
     <script is:inline src="/toggle-theme.js"></script>
-    <ClientRouter />
   </head>
   <body>
     <SearchOverlay client:load searchList={searchList} />
