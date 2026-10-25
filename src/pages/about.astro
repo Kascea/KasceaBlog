@@ -2,211 +2,178 @@
 import Layout from "@layouts/Layout.astro";
 import Header from "@components/Header.astro";
 import Footer from "@components/Footer.astro";
-import Project from "@components/Project.astro";
-import { getProjectData } from "@utils/getRepos";
-import { PROJECTS, SITE } from "@config";
+import { PROJECTS, SITE, SOCIALS } from "@config";
+import socialIcons from "@assets/socialIcons";
 
-const { pinnedRepos, otherRepos, fetchError } = await getProjectData(
-  PROJECTS.reposToShow,
-  PROJECTS.pinnedRepoNames,
-  PROJECTS.commonLanguagesToShow
-);
-
-const repos = [...pinnedRepos, ...otherRepos];
-
-const pinnedFallbackLinks = PROJECTS.pinnedRepoNames.map(name => ({
-  name,
-  url: `https://github.com/${PROJECTS.githubUsername}/${name}`,
-}));
+const linkedIn = SOCIALS.find(s => s.name === "LinkedIn" && s.active);
 
 const jobs = [
-  {
-    company: "Medtronic",
-    location: "Mounds View, MN",
-    roles: [
-      {
-        title: "Software Engineer II (Backend)",
-        dates: "Nov 2025 – Present",
-        bullets: [],
-      },
-    ],
-  },
-  {
-    company: "Collins Aerospace",
-    location: "Burnsville, MN",
-    roles: [
-      {
-        title: "Software Engineer I",
-        dates: "May 2023 – Oct 2025",
-        bullets: [
-          "Developed a customized C# (MVVM) template for in-house team usage in the creation of WPF applications, resulting in a 50% reduction in initial project setup, improved code consistency, and project maintainability.",
-          "Constructed an ASP.NET Core web application to facilitate CRUD operations on an internal Oracle database, streamlining data management and enhancing data accessibility and decision-making.",
-          "Engineered a WPF Quality Containment Tool to orchestrate and streamline the containment process across multiple manufacturing sites, resulting in a 30% reduction in containment process time, improving quality control and reducing operational costs.",
-        ],
-      },
-      {
-        title: "Software Engineer Co-op",
-        dates: "Jan 2022 – May 2023",
-        bullets: [
-          "Assisted in updating application suite to ensure compatibility with the transition to Oracle 19 database, logging and manually migrating documents that encountered migration failures, guaranteeing a seamless and error-free transition.",
-          "Designed and implemented a new C# WPF application that standardized the CACT process, decreasing process time by 57% for the customer contract team.",
-          "Developed an ASP.NET and jQuery-powered user workflow page, automating part disposition recommendations within the quality containment process, resulting in a 25% reduction in manual decision-making errors.",
-        ],
-      },
-    ],
-  },
+	{
+		company: "Medtronic",
+		location: "Mounds View, MN",
+		roles: [
+			{
+				title: "Software Engineer II",
+				dates: "Nov 2025 – Present",
+				summary: "Backend engineering on medical device software.",
+			},
+		],
+	},
+	{
+		company: "Collins Aerospace",
+		location: "Burnsville, MN",
+		roles: [
+			{
+				title: "Software Engineer I",
+				dates: "May 2023 – Oct 2025",
+				summary:
+					"Built internal C# / WPF and ASP.NET Core tools for quality and manufacturing teams.",
+			},
+			{
+				title: "Software Engineer Co-op",
+				dates: "Jan 2022 – May 2023",
+				summary:
+					"Shipped workflow apps and helped migrate the app suite to Oracle 19.",
+			},
+		],
+	},
 ];
+
+const education = {
+	school: "University of St. Thomas",
+	location: "St. Paul, MN",
+	degree: "B.S. Computer Science, Minor in Electrical Engineering",
+	dates: "Sep 2019 – May 2023",
+};
 ---
 
 <Layout title={`About | ${SITE.title}`}>
-  <Header activeNav="about" />
-  <main id="main-content">
-    <section id="intro">
-      <p class="eyebrow">About</p>
-      <h1 class="page-title mt-3">Cole Carlson</h1>
-      <div class="intro-body">
-        <p>
-          I'm a full-stack software engineer from Minnesota. I like building
-          web applications with C#, ASP.NET Core, React, TypeScript, and
-          TailwindCSS, and these days I'm a backend engineer at Medtronic.
-        </p>
-        <p>
-          Outside of work I'm an avid gym-goer and always looking for ways to
-          get a little better at things. Feel free to reach out on any of the
-          links in the footer.
-        </p>
-      </div>
-    </section>
+	<Header activeNav="about" />
+	<main id="main-content">
+		<section id="intro">
+			<p class="eyebrow">About</p>
+			<h1 class="page-title mt-3">Cole Carlson</h1>
+			<div class="intro-body">
+				<p>
+					I'm a software engineer in Minnesota, currently working on backend
+					systems at Medtronic. Before that I spent a few years at Collins
+					Aerospace building internal tools in C# and ASP.NET.
+				</p>
+				<p>
+					Outside of work I'm usually at the gym or tinkering on something new.
+					Feel free to reach out on any of the links below.
+				</p>
+			</div>
+		</section>
 
-    <section id="experience" aria-labelledby="experience-title">
-      <div class="section-head">
-        <h2 id="experience-title" class="section-title">Experience</h2>
-      </div>
-      <div class="jobs">
-        {
-          jobs.map(job => (
-            <div class="job">
-              <div class="job-header">
-                <h3>{job.company}</h3>
-                <span class="meta">{job.location}</span>
-              </div>
-              {job.roles.map(role => (
-                <div class="role">
-                  <div class="role-header">
-                    <h4>{role.title}</h4>
-                    <span class="meta font-mono">{role.dates}</span>
-                  </div>
-                  {role.bullets.length > 0 && (
-                    <ul>
-                      {role.bullets.map(bullet => (
-                        <li>{bullet}</li>
-                      ))}
-                    </ul>
-                  )}
-                </div>
-              ))}
-            </div>
-          ))
-        }
-      </div>
-    </section>
+		<section id="experience" aria-labelledby="experience-title">
+			<div class="section-head">
+				<h2 id="experience-title" class="section-title">
+					Experience &amp; education
+				</h2>
+				{
+					linkedIn && (
+						<a
+							href={linkedIn.href}
+							class="linkedin-link focus-outline"
+							target="_blank"
+							rel="noopener noreferrer"
+							aria-label={linkedIn.linkTitle}
+							title={linkedIn.linkTitle}
+							set:html={socialIcons.LinkedIn}
+						/>
+					)
+				}
+			</div>
+			<div class="jobs">
+				{
+					jobs.map(job => (
+						<div class="job">
+							<div class="job-header">
+								<h3>{job.company}</h3>
+								<span class="meta">{job.location}</span>
+							</div>
+							{job.roles.map(role => (
+								<div class="role">
+									<div class="role-header">
+										<h4>{role.title}</h4>
+										<span class="meta font-mono">{role.dates}</span>
+									</div>
+									<p class="summary">{role.summary}</p>
+								</div>
+							))}
+						</div>
+					))
+				}
+				<div class="job">
+					<div class="job-header">
+						<h3>{education.school}</h3>
+						<span class="meta">{education.location}</span>
+					</div>
+					<div class="role">
+						<div class="role-header">
+							<h4>{education.degree}</h4>
+							<span class="meta font-mono">{education.dates}</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
 
-    <section id="projects" aria-labelledby="projects-title">
-      <div class="section-head">
-        <h2 id="projects-title" class="section-title">Projects</h2>
-        <a
-          href={`https://github.com/${PROJECTS.githubUsername}`}
-          class="quiet-link"
-        >
-          GitHub &rarr;
-        </a>
-      </div>
-      {
-        repos.length > 0 ? (
-          <ul>
-            {repos.map(repo => (
-              <Project repo={repo} />
-            ))}
-          </ul>
-        ) : (
-          <>
-            <p class="meta">
-              {fetchError
-                ? "Live GitHub data is temporarily unavailable."
-                : "No public projects available right now."}
-            </p>
-            <ul class="fallback-links">
-              {pinnedFallbackLinks.map(repo => (
-                <li>
-                  <a href={repo.url} class="ink-link">
-                    {repo.name}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </>
-        )
-      }
-    </section>
-
-    <section id="education" aria-labelledby="education-title">
-      <div class="section-head">
-        <h2 id="education-title" class="section-title">Education</h2>
-      </div>
-      <div class="job-header">
-        <h3>University of St. Thomas</h3>
-        <span class="meta">St. Paul, MN</span>
-      </div>
-      <div class="role-header mt-1">
-        <h4>B.S. Computer Science, Minor in Electrical Engineering</h4>
-        <span class="meta font-mono">Sep 2019 – May 2023</span>
-      </div>
-      <ul class="edu-list">
-        <li>Dean's List (Fall 2021 – Spring 2023)</li>
-        <li>GPA: 3.8</li>
-      </ul>
-    </section>
-  </main>
-  <Footer />
+		<section id="projects" aria-labelledby="projects-title">
+			<div class="section-head">
+				<h2 id="projects-title" class="section-title">Projects</h2>
+			</div>
+			<p class="text-skin-muted">
+				Most of what I build lives on GitHub.{" "}
+				<a
+					href={`https://github.com/${PROJECTS.githubUsername}`}
+					class="quiet-link"
+				>
+					View my projects on GitHub &rarr;
+				</a>
+			</p>
+		</section>
+	</main>
+	<Footer />
 </Layout>
 
 <style>
-  .intro-body {
-    @apply mt-6 max-w-2xl space-y-4 text-lg leading-8;
-  }
-  section + section {
-    @apply mt-16;
-  }
-  .meta {
-    @apply text-sm text-skin-muted;
-  }
-  .jobs {
-    @apply space-y-10;
-  }
-  .job {
-    @apply space-y-5;
-  }
-  .job-header,
-  .role-header {
-    @apply flex flex-wrap items-baseline justify-between gap-x-3;
-  }
-  .job-header h3 {
-    @apply text-lg font-semibold;
-  }
-  .role {
-    @apply space-y-2 border-l border-skin-line pl-4;
-  }
-  .role-header h4 {
-    @apply font-medium text-skin-accent;
-  }
-  .role ul,
-  .edu-list {
-    @apply list-disc space-y-2 pl-5 text-sm leading-relaxed text-skin-muted marker:text-skin-muted;
-  }
-  .edu-list {
-    @apply mt-3;
-  }
-  .fallback-links {
-    @apply mt-3 space-y-1;
-  }
+	.intro-body {
+		@apply mt-4 max-w-2xl space-y-3 text-lg leading-8;
+	}
+	section + section {
+		@apply mt-12;
+	}
+	.linkedin-link {
+		@apply self-center text-skin-muted transition-colors hover:text-skin-link;
+	}
+	.linkedin-link :global(svg.icon-tabler) {
+		@apply h-5 w-5 scale-100;
+	}
+	.meta {
+		@apply text-sm text-skin-muted;
+	}
+	.jobs {
+		@apply space-y-7;
+	}
+	.job {
+		@apply space-y-2;
+	}
+	.job-header,
+	.role-header {
+		@apply flex flex-wrap items-baseline justify-between gap-x-3;
+	}
+	.job-header h3 {
+		@apply text-lg font-semibold;
+	}
+	.role {
+		@apply border-l border-skin-line py-0.5 pl-4;
+	}
+	.role-header h4 {
+		@apply font-medium text-skin-accent;
+	}
+	.summary {
+		@apply mt-0.5 text-sm leading-relaxed text-skin-muted;
+	}
 </style>
