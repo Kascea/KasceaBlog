@@ -11,29 +11,28 @@ const jobs = [
 	{
 		company: "Medtronic",
 		location: "Mounds View, MN",
+		summary:
+			"Building secure, scalable systems for firmware distribution, device log collection, and identity management.",
 		roles: [
 			{
 				title: "Software Engineer II",
 				dates: "Nov 2025 – Present",
-				summary: "Backend engineering on medical device software.",
 			},
 		],
 	},
 	{
 		company: "Collins Aerospace",
 		location: "Burnsville, MN",
+		summary:
+			"Built the custom MES and quality software running a $1M-per-day manufacturing plant.",
 		roles: [
 			{
 				title: "Software Engineer I",
 				dates: "May 2023 – Oct 2025",
-				summary:
-					"Built internal C# / WPF and ASP.NET Core tools for quality and manufacturing teams.",
 			},
 			{
 				title: "Software Engineer Co-op",
 				dates: "Jan 2022 – May 2023",
-				summary:
-					"Shipped workflow apps and helped migrate the app suite to Oracle 19.",
 			},
 		],
 	},
@@ -99,9 +98,11 @@ const education = {
 										<h4>{role.title}</h4>
 										<span class="meta font-mono">{role.dates}</span>
 									</div>
-									<p class="summary">{role.summary}</p>
-								</div>
+									</div>
 							))}
+							<div class="role">
+								<p class="summary">{job.summary}</p>
+							</div>
 						</div>
 					))
 				}
