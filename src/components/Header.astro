@@ -1,43 +1,69 @@
 ---
-import { LOGO_IMAGE, SITE } from "@config";
-import Hr from "./Hr.astro";
-
-const logoPNG = "/assets/logo.png";
-const logoSVG = "/assets/logo.svg";
+import { SITE } from "@config";
 
 export interface Props {
-  activeNav?: "about" | "projects" | "blog" | "work" | "search";
+  activeNav?: "home" | "about" | "blog";
 }
 
 const { activeNav } = Astro.props;
 ---
 
-<header>
+<header id="main-header">
   <a id="skip-to-content" href="#main-content">Skip to content</a>
-  <div class="nav-container">
-    <div class="top-nav-wrap">
-      <a href="/" class="logo">
-        {
-          LOGO_IMAGE.enable ? (
-            <img
-              src={LOGO_IMAGE.svg ? logoSVG : logoPNG}
-              alt="AstroPaper Logo"
-              width={LOGO_IMAGE.width}
-              height={LOGO_IMAGE.height}
-            />
-          ) : (
-            SITE.title
-          )
-        }
-      </a>
-      <nav id="nav-menu">
+  <a href="/" class="brand">
+    <img
+      src="/favicon.png"
+      alt=""
+      width="32"
+      height="32"
+      class="brand-icon"
+    />
+    <span class="site-name">{SITE.author}</span>
+  </a>
+  <div class="actions">
+    <nav id="menu-items" class="display-none sm:flex" aria-label="Main menu">
+      <a href="/" class={activeNav === "home" ? "active" : ""}>Home</a>
+      <a href="/about" class={activeNav === "about" ? "active" : ""}>About</a>
+      <a href="/blog" class={activeNav === "blog" ? "active" : ""}>Blog</a>
+    </nav>
+    <button
+      id="search-btn"
+      class="icon-btn focus-outline"
+      aria-label="Search"
+      title="Search"
+    >
+      <svg viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+                ><path
+                  d="M19.023 16.977a35.13 35.13 0 0 1-1.367-1.384c-.372-.378-.596-.653-.596-.653l-2.8-1.337A6.962 6.962 0 0 0 16 9c0-3.859-3.14-7-7-7S2 5.141 2 9s3.14 7 7 7c1.763 0 3.37-.66 4.603-1.739l1.337 2.8s.275.224.653.596c.387.363.896.854 1.384 1.367l1.358 1.392.604.646 2.121-2.121-.646-.604c-.379-.372-.885-.866-1.391-1.36zM9 14c-2.757 0-5-2.243-5-5s2.243-5 5-5 5 2.243 5 5-2.243 5-5 5z"
+                ></path>
+              </svg>
+    </button>
+    {
+      SITE.lightAndDarkMode && (
         <button
-          class="hamburger-menu focus-outline"
-          aria-label="Open Menu"
-          aria-expanded="false"
-          aria-controls="menu-items"
+          id="theme-btn"
+          class="icon-btn focus-outline"
+          title="Toggles light & dark"
+          aria-label="auto"
+          aria-live="polite"
         >
-          <svg
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" id="moon-svg">
+                    <path d="M20.742 13.045a8.088 8.088 0 0 1-2.077.271c-2.135 0-4.14-.83-5.646-2.336a8.025 8.025 0 0 1-2.064-7.723A1 1 0 0 0 9.73 2.034a10.014 10.014 0 0 0-4.489 2.582c-3.898 3.898-3.898 10.243 0 14.143a9.937 9.937 0 0 0 7.072 2.93 9.93 9.93 0 0 0 7.07-2.929 10.007 10.007 0 0 0 2.583-4.491 1.001 1.001 0 0 0-1.224-1.224zm-2.772 4.301a7.947 7.947 0 0 1-5.656 2.343 7.953 7.953 0 0 1-5.658-2.344c-3.118-3.119-3.118-8.195 0-11.314a7.923 7.923 0 0 1 2.06-1.483 10.027 10.027 0 0 0 2.89 7.848 9.972 9.972 0 0 0 7.848 2.891 8.036 8.036 0 0 1-1.484 2.059z" />
+                  </svg>
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" id="sun-svg">
+                    <path d="M6.993 12c0 2.761 2.246 5.007 5.007 5.007s5.007-2.246 5.007-5.007S14.761 6.993 12 6.993 6.993 9.239 6.993 12zM12 8.993c1.658 0 3.007 1.349 3.007 3.007S13.658 15.007 12 15.007 8.993 13.658 8.993 12 10.342 8.993 12 8.993zM10.998 19h2v3h-2zm0-17h2v3h-2zm-9 9h3v2h-3zm17 0h3v2h-3zM4.219 18.363l2.12-2.122 1.415 1.414-2.12 2.122zM16.24 6.344l2.122-2.122 1.414 1.414-2.122 2.122zM6.342 7.759 4.22 5.637l1.415-1.414 2.12 2.122zm13.434 10.605-1.414 1.414-2.122-2.122 1.414-1.414z" />
+                  </svg>
+        </button>
+      )
+    }
+    <button
+      class="hamburger-menu focus-outline"
+      aria-label="Open Menu"
+      aria-expanded="false"
+      aria-controls="menu-items"
+    >
+      <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
             height="24"
@@ -55,124 +81,51 @@ const { activeNav } = Astro.props;
             <line x1="18" y1="6" x2="6" y2="18" class="close"></line>
             <line x1="6" y1="6" x2="18" y2="18" class="close"></line>
           </svg>
-        </button>
-        <ul id="menu-items" class="display-none sm:flex">
-          <li>
-            <a href="/projects" class={activeNav === "projects" ? "active" : ""}>
-              Projects
-            </a>
-          </li>
-          <li>
-            <a href="/blog" class={activeNav === "blog" ? "active" : ""}>
-              Blog
-            </a>
-          </li>
-          <li>
-            <a href="/work" class={activeNav === "work" ? "active" : ""}>
-              Work
-            </a>
-          </li>
-          <li>
-            <button
-              id="search-btn"
-              class="focus-outline p-3 sm:p-1"
-              aria-label="Search"
-              title="Search"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                ><path
-                  d="M19.023 16.977a35.13 35.13 0 0 1-1.367-1.384c-.372-.378-.596-.653-.596-.653l-2.8-1.337A6.962 6.962 0 0 0 16 9c0-3.859-3.14-7-7-7S2 5.141 2 9s3.14 7 7 7c1.763 0 3.37-.66 4.603-1.739l1.337 2.8s.275.224.653.596c.387.363.896.854 1.384 1.367l1.358 1.392.604.646 2.121-2.121-.646-.604c-.379-.372-.885-.866-1.391-1.36zM9 14c-2.757 0-5-2.243-5-5s2.243-5 5-5 5 2.243 5 5-2.243 5-5 5z"
-                ></path>
-              </svg>
-            </button>
-          </li>
-          <li>
-            {
-              SITE.lightAndDarkMode && (
-                <button
-                  id="theme-btn"
-                  class="focus-outline"
-                  title="Toggles light & dark"
-                  aria-label="auto"
-                  aria-live="polite"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" id="moon-svg">
-                    <path d="M20.742 13.045a8.088 8.088 0 0 1-2.077.271c-2.135 0-4.14-.83-5.646-2.336a8.025 8.025 0 0 1-2.064-7.723A1 1 0 0 0 9.73 2.034a10.014 10.014 0 0 0-4.489 2.582c-3.898 3.898-3.898 10.243 0 14.143a9.937 9.937 0 0 0 7.072 2.93 9.93 9.93 0 0 0 7.07-2.929 10.007 10.007 0 0 0 2.583-4.491 1.001 1.001 0 0 0-1.224-1.224zm-2.772 4.301a7.947 7.947 0 0 1-5.656 2.343 7.953 7.953 0 0 1-5.658-2.344c-3.118-3.119-3.118-8.195 0-11.314a7.923 7.923 0 0 1 2.06-1.483 10.027 10.027 0 0 0 2.89 7.848 9.972 9.972 0 0 0 7.848 2.891 8.036 8.036 0 0 1-1.484 2.059z" />
-                  </svg>
-                  <svg xmlns="http://www.w3.org/2000/svg" id="sun-svg">
-                    <path d="M6.993 12c0 2.761 2.246 5.007 5.007 5.007s5.007-2.246 5.007-5.007S14.761 6.993 12 6.993 6.993 9.239 6.993 12zM12 8.993c1.658 0 3.007 1.349 3.007 3.007S13.658 15.007 12 15.007 8.993 13.658 8.993 12 10.342 8.993 12 8.993zM10.998 19h2v3h-2zm0-17h2v3h-2zm-9 9h3v2h-3zm17 0h3v2h-3zM4.219 18.363l2.12-2.122 1.415 1.414-2.12 2.122zM16.24 6.344l2.122-2.122 1.414 1.414-2.122 2.122zM6.342 7.759 4.22 5.637l1.415-1.414 2.12 2.122zm13.434 10.605-1.414 1.414-2.122-2.122 1.414-1.414z" />
-                  </svg>
-                </button>
-              )
-            }
-          </li>
-        </ul>
-      </nav>
-    </div>
+    </button>
   </div>
-  <Hr />
 </header>
 
 <style>
+  #main-header {
+    @apply relative mb-16 flex items-center sm:mb-20;
+  }
   #skip-to-content {
-    @apply absolute -top-full left-16 z-50 bg-skin-accent px-3 py-2 text-skin-inverted transition-all focus:top-4;
+    @apply fixed -top-full left-4 z-50 rounded bg-skin-accent px-3 py-2 text-skin-inverted transition-all focus:top-4;
   }
-  .nav-container {
-    @apply mx-auto flex max-w-3xl flex-col items-center justify-between sm:flex-row;
+  .brand {
+    @apply flex items-center gap-3;
   }
-  .top-nav-wrap {
-    @apply relative flex w-full items-start justify-between p-4 sm:items-center sm:py-8;
+  .brand-icon {
+    @apply h-8 w-8 rounded-md;
   }
-  .logo {
-    @apply absolute py-1 text-xl font-semibold sm:static sm:text-2xl;
+  .site-name {
+    @apply text-xl font-bold tracking-[-0.035em] text-skin-heading sm:text-2xl;
   }
-  .hamburger-menu {
-    @apply self-end p-2 sm:hidden;
-  }
-  .hamburger-menu svg {
-    @apply h-6 w-6 scale-125 fill-skin-base;
-  }
-
   nav {
-    @apply flex w-full flex-col items-center bg-skin-fill sm:ml-2 sm:flex-row sm:justify-end sm:space-x-4 sm:py-0;
+    @apply absolute right-0 top-12 z-50 w-48 flex-col rounded-md border border-skin-line bg-skin-fill py-2 text-sm shadow-lg
+    sm:static sm:z-auto sm:mr-3 sm:w-auto sm:flex-row sm:items-center sm:divide-x sm:divide-dotted sm:divide-skin-line sm:rounded-none sm:border-0 sm:bg-transparent sm:py-0 sm:shadow-none;
   }
-  nav ul {
-    @apply mt-4 grid w-44 grid-cols-2 grid-rows-4 gap-x-2 gap-y-2 sm:ml-0 sm:mt-0 sm:flex sm:w-auto sm:gap-x-5 sm:gap-y-0;
-  }
-  nav ul li {
-    @apply col-span-2 flex items-center justify-center;
-  }
-  nav ul li a {
-    @apply w-full px-4 py-3 text-center font-medium tracking-wide hover:text-skin-accent sm:my-0 sm:px-2 sm:py-1;
-  }
-  nav ul li:nth-child(4) a {
-    @apply w-auto;
-  }
-  nav ul li:nth-child(4),
-  nav ul li:nth-child(5) {
-    @apply col-span-1;
+  nav a {
+    @apply px-4 py-3 text-right text-skin-accent hover:bg-skin-card sm:px-3 sm:py-0 sm:text-left sm:hover:bg-transparent sm:hover:underline sm:hover:underline-offset-4;
   }
   nav a.active {
-    @apply text-skin-accent underline decoration-1 underline-offset-[6px];
+    @apply font-semibold text-skin-heading;
   }
-  nav a.active svg {
-    @apply fill-skin-accent;
+  .actions {
+    @apply ml-auto flex items-center gap-2 sm:gap-3;
   }
-
-  nav button {
-    @apply p-1;
+  .icon-btn {
+    @apply flex h-9 w-9 items-center justify-center rounded-md bg-skin-card ring-skin-line transition-all hover:ring-2;
   }
-  nav button svg {
-    @apply h-6 w-6 fill-skin-base hover:fill-skin-accent;
+  .icon-btn svg {
+    @apply h-5 w-5 fill-skin-base;
   }
-  #theme-btn {
-    @apply p-3 sm:p-1;
+  .hamburger-menu {
+    @apply flex h-9 w-9 items-center justify-center sm:hidden;
   }
-  #theme-btn svg {
-    @apply scale-125 hover:rotate-12 sm:scale-100;
+  .hamburger-menu svg {
+    @apply h-6 w-6 fill-transparent text-skin-base;
   }
-
   .menu-icon line {
     @apply transition-opacity duration-75 ease-in-out;
   }

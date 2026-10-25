@@ -8,20 +8,26 @@
 @layer base {
   :root,
   html[data-theme="light"] {
-    --color-fill: 251, 254, 251;
-    --color-text-base: 40, 39, 40;
+    --color-fill: 255, 255, 255;
+    --color-text-base: 23, 23, 23;
+    --color-text-muted: 115, 115, 115;
+    --color-heading: 0, 0, 0;
+    --color-link: 113, 83, 221;
     --color-accent: 113, 83, 221;
-    --color-card: 230, 230, 230;
-    --color-card-muted: 205, 205, 205;
-    --color-border: 236, 233, 233;
+    --color-card: 244, 244, 245;
+    --color-card-muted: 228, 228, 231;
+    --color-border: 222, 222, 222;
   }
   html[data-theme="dark"] {
-    --color-fill: 33, 39, 55;
-    --color-text-base: 234, 237, 243;
-    --color-accent: 123, 93, 231;
-    --color-card: 52, 63, 96;
-    --color-card-muted: 138, 51, 2;
-    --color-border: 123, 93, 231;
+    --color-fill: 0, 0, 0;
+    --color-text-base: 229, 229, 229;
+    --color-text-muted: 150, 150, 150;
+    --color-heading: 255, 255, 255;
+    --color-link: 157, 132, 245;
+    --color-accent: 157, 132, 245;
+    --color-card: 24, 24, 27;
+    --color-card-muted: 39, 39, 42;
+    --color-border: 50, 50, 50;
   }
   #sun-svg,
   html[data-theme="dark"] #moon-svg {
@@ -31,13 +37,20 @@
   html[data-theme="dark"] #sun-svg {
     display: block;
   }
-  body {
-    @apply flex min-h-screen flex-col bg-skin-fill font-mono text-skin-base 
-    selection:bg-skin-accent selection:bg-opacity-70 selection:text-skin-inverted;
+  html {
+    scroll-behavior: smooth;
   }
-  section,
-  footer {
-    @apply mx-auto max-w-3xl px-4;
+  body {
+    @apply mx-auto flex min-h-screen w-full max-w-3xl flex-col bg-skin-fill px-6 pt-12 font-sans text-skin-base antialiased
+    selection:bg-skin-accent selection:bg-opacity-30 sm:px-8 sm:pt-16;
+  }
+  h1,
+  h2,
+  h3 {
+    @apply text-skin-heading;
+  }
+  time {
+    @apply font-mono tabular-nums tracking-tight;
   }
   a {
     @apply outline-2 outline-offset-1 outline-skin-fill 
@@ -54,7 +67,7 @@
   .prose {
     @apply prose-headings:!mb-3 prose-headings:!text-skin-base 
     prose-h3:italic prose-p:!text-skin-base 
-    prose-a:!text-skin-base prose-a:!decoration-dashed prose-a:underline-offset-8
+    prose-a:!text-skin-link prose-a:underline-offset-4
     hover:prose-a:text-skin-accent prose-blockquote:!border-l-skin-accent
     prose-blockquote:border-opacity-50 prose-blockquote:opacity-80
     prose-figcaption:!text-skin-base prose-figcaption:opacity-70
@@ -71,6 +84,10 @@
     prose-td:border-skin-line prose-img:mx-auto 
     prose-img:!mt-2 prose-img:border-2 
     prose-img:border-skin-line prose-hr:!border-skin-line;
+  }
+  .prose {
+    font-size: 1.0625rem;
+    line-height: 1.75;
   }
   .prose a {
     @apply hover:!text-skin-accent;
@@ -120,6 +137,44 @@
 }
 
 @layer components {
+  .eyebrow {
+    @apply font-mono text-xs font-semibold uppercase tracking-[0.12em] text-skin-accent;
+  }
+  .display-title {
+    @apply max-w-2xl text-4xl font-bold leading-[1.08] tracking-[-0.045em] text-skin-heading sm:text-5xl;
+  }
+  .page-title {
+    @apply text-3xl font-bold leading-tight tracking-[-0.035em] text-skin-heading sm:text-4xl;
+  }
+  .section-title {
+    @apply text-xl font-bold tracking-[-0.03em] text-skin-heading;
+  }
+  .section-head {
+    @apply mb-6 flex items-baseline justify-between gap-4 border-b border-dotted border-skin-line pb-3;
+  }
+  .ink-link {
+    background-position: bottom;
+    background-repeat: repeat-x;
+    background-size: 100% 6px;
+    background-image: linear-gradient(
+      transparent,
+      transparent 5px,
+      rgb(var(--color-text-base)) 5px,
+      rgb(var(--color-text-base))
+    );
+  }
+  .ink-link:hover {
+    @apply text-skin-link;
+    background-image: linear-gradient(
+      transparent,
+      transparent 4px,
+      rgb(var(--color-link)) 4px,
+      rgb(var(--color-link))
+    );
+  }
+  .quiet-link {
+    @apply text-sm font-medium text-skin-link underline decoration-dotted underline-offset-4 hover:decoration-solid;
+  }
   .display-none {
     @apply hidden;
   }

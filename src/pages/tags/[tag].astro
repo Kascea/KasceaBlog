@@ -36,10 +36,11 @@ const tagPosts = getPostsByTag(posts, tag);
 ---
 
 <Layout title={`Tag:${tag} | ${SITE.title}`}>
-  <Header />
+  <Header activeNav="blog" />
   <Main
-    pageTitle={`Tag:${tag}`}
-    pageDesc={`All the articles with the tag "${tag}".`}
+    eyebrow="Tag"
+    pageTitle={`#${tag}`}
+    pageDesc={`Everything tagged "${tag}".`}
   >
     <ul>
       {

@@ -1,29 +1,27 @@
 ---
-import Breadcrumbs from "@components/Breadcrumbs.astro";
-
 export interface Props {
   pageTitle: string;
   pageDesc?: string;
+  eyebrow?: string;
 }
 
-const { pageTitle, pageDesc } = Astro.props;
+const { pageTitle, pageDesc, eyebrow } = Astro.props;
 ---
 
-<Breadcrumbs />
 <main id="main-content">
-  <h1>{pageTitle}</h1>
-  <p>{pageDesc}</p>
-  <slot />
+  {eyebrow && <p class="eyebrow mb-3">{eyebrow}</p>}
+  <h1 class="page-title">{pageTitle}</h1>
+  {pageDesc && <p class="page-desc">{pageDesc}</p>}
+  <div class="page-body">
+    <slot />
+  </div>
 </main>
 
 <style>
-  #main-content {
-    @apply mx-auto w-full max-w-3xl px-4 pb-12;
+  .page-desc {
+    @apply mt-3 max-w-2xl text-lg text-skin-muted;
   }
-  #main-content h1 {
-    @apply text-2xl font-semibold sm:text-3xl;
-  }
-  #main-content p {
-    @apply mb-6 mt-2 italic;
+  .page-body {
+    @apply mt-10 border-t border-dotted border-skin-line pt-6;
   }
 </style>

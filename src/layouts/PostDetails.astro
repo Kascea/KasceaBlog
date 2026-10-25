@@ -22,41 +22,45 @@ const ogUrl = new URL(ogImage ? ogImage : `${title}.png`, Astro.url.origin)
 ---
 
 <Layout title={title} author={author} description={description ?? undefined} ogImage={ogUrl}>
-  <Header />
-  <div class="mx-auto flex w-full max-w-3xl justify-start px-2">
-    <button
-      class="focus-outline mb-2 mt-8 flex hover:opacity-75"
-      onclick="history.back()"
-    >
-      <svg xmlns="http://www.w3.org/2000/svg"
-        ><path
-          d="M13.293 6.293 7.586 12l5.707 5.707 1.414-1.414L10.414 12l4.293-4.293z"
-        ></path>
-      </svg><span>Go back</span>
-    </button>
-  </div>
+  <Header activeNav="blog" />
   <main id="main-content">
-    <h1 class="post-title">{title}</h1>
-    <Datetime datetime={pubDatetime} size="lg" className="my-2" />
-    <article id="article" role="article" class="prose mx-auto mt-8 max-w-3xl">
+    <a href="/blog" class="back-link">&larr; All posts</a>
+    <header class="post-header">
+      <h1 class="post-title">{title}</h1>
+      {description && <p class="post-desc">{description}</p>}
+      <div class="post-meta">
+        <Datetime datetime={pubDatetime} />
+        {tags.length > 0 && (
+          <ul class="tags-container">
+            {tags.map(tag => <Tag name={slugifyStr(tag)} />)}
+          </ul>
+        )}
+      </div>
+    </header>
+    <article id="article" role="article" class="prose max-w-none">
       <Content />
     </article>
-
-    <ul class="tags-container">
-      {tags.map(tag => <Tag name={slugifyStr(tag)} />)}
-    </ul>
   </main>
   <Footer />
 </Layout>
 
 <style>
-  main {
-    @apply mx-auto w-full max-w-3xl px-4 pb-12;
+  .back-link {
+    @apply font-mono text-xs uppercase tracking-[0.12em] text-skin-muted hover:text-skin-link;
+  }
+  .post-header {
+    @apply mb-10 mt-6 border-b border-dotted border-skin-line pb-6;
   }
   .post-title {
-    @apply text-2xl font-semibold text-skin-accent;
+    @apply text-3xl font-bold leading-tight tracking-[-0.035em] sm:text-4xl;
+  }
+  .post-desc {
+    @apply mt-3 text-lg text-skin-muted;
+  }
+  .post-meta {
+    @apply mt-4 flex flex-wrap items-center gap-x-4 gap-y-2;
   }
   .tags-container {
-    @apply my-8;
+    @apply flex flex-wrap gap-2;
   }
 </style>

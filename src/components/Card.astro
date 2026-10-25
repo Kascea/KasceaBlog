@@ -9,47 +9,34 @@ export interface Props {
 }
 
 const { href, frontmatter, secHeading = true } = Astro.props;
-const { title, pubDatetime, description, stargazers_count } = frontmatter;
+const { title, pubDatetime, description } = frontmatter;
+const Heading = secHeading ? "h2" : "h3";
 ---
 
-<li class="my-6">
-  <a
-    href={href}
-    class="inline-block text-lg font-medium text-skin-accent decoration-dashed underline-offset-4 focus-visible:no-underline focus-visible:underline-offset-0"
-  >
-    {
-      secHeading ? (
-        <h2 class="text-lg font-medium decoration-dashed hover:underline">
-          {title}
-        </h2>
-      ) : (
-        <h3 class="text-lg font-medium decoration-dashed hover:underline">
-          {title}
-        </h3>
-      )
-    }
-  </a>
-  <div class="flex items-center space-x-4 text-sm text-skin-muted">
-    <Datetime datetime={pubDatetime} />
-    {
-      stargazers_count && (
-        <div class="flex items-center space-x-1 opacity-80">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="icon-tabler"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-          >
-            <path d="M12 2 L14.37 8.62 L21 9.24 L16.62 13.12 L18 19 L12 16.62 L6 19 L7.38 13.12 L3 9.24 L9.63 8.62 L12 2 Z" />
-          </svg>
-          <span>{stargazers_count}</span>
-        </div>
-      )
-    }
+<li class="post-row">
+  <div class="post-line">
+    <Datetime datetime={pubDatetime} className="post-date" />
+    <Heading class="post-title">
+      <a href={href} class="ink-link">{title}</a>
+    </Heading>
   </div>
-  <p>{description}</p>
+  {description && <p class="post-desc">{description}</p>}
 </li>
+
+<style>
+  .post-row {
+    @apply border-b border-dotted border-skin-line py-5 first:pt-0 last:border-b-0;
+  }
+  .post-line {
+    @apply flex flex-col gap-x-4 sm:flex-row sm:items-baseline;
+  }
+  .post-line :global(.post-date) {
+    @apply shrink-0 sm:w-[120px];
+  }
+  .post-title {
+    @apply text-base font-medium text-skin-base;
+  }
+  .post-desc {
+    @apply mt-2 max-w-xl text-sm leading-6 text-skin-muted sm:ml-[136px];
+  }
+</style>

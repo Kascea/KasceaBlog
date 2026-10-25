@@ -23,8 +23,8 @@ const languageSegments =
 ---
 
 <li class="project-row">
-  <h3>
-    <a href={link} class="project-title">{name}</a>
+  <h3 class="text-base">
+    <a href={link} class="project-title ink-link">{name}</a>
   </h3>
 
   <div class="project-meta">
@@ -60,11 +60,11 @@ const languageSegments =
 
 <style>
   .project-row {
-    @apply my-6 border-b border-skin-line pb-6 last:border-b-0;
+    @apply border-b border-dotted border-skin-line py-5 first:pt-0 last:border-b-0;
   }
 
   .project-title {
-    @apply text-lg font-medium text-skin-accent decoration-dashed underline-offset-4 hover:underline;
+    @apply font-medium text-skin-base;
   }
 
   .project-meta {
@@ -72,22 +72,22 @@ const languageSegments =
   }
 
   .project-stars {
-    @apply inline-flex items-center gap-1 text-sm opacity-80;
+    @apply inline-flex items-center gap-1 font-mono text-xs text-skin-muted;
   }
 
   .project-star {
-    @apply h-4 w-4;
+    @apply h-3.5 w-3.5 fill-transparent;
   }
 
   .project-description {
-    @apply mt-2 opacity-90;
+    @apply mt-2 text-sm leading-6;
   }
 
   .language-summary {
-    @apply mt-2 text-sm opacity-80;
+    @apply mt-1 font-mono text-xs text-skin-muted;
   }
 
   .language-empty {
-    @apply mt-3 text-xs italic opacity-70;
+    @apply mt-1 text-xs italic text-skin-muted;
   }
 </style>

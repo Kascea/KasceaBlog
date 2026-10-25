@@ -1,16 +1,9 @@
 const primaryColorScheme = ""; // "light" | "dark"
 
-// Get theme data from local storage
-const currentTheme = localStorage.getItem("theme");
-
 function getPreferTheme() {
-  // return theme value in local storage if it is set
-  if (currentTheme) return currentTheme;
-
-  // return primary color scheme if it is set
+  const stored = localStorage.getItem("theme");
+  if (stored) return stored;
   if (primaryColorScheme) return primaryColorScheme;
-
-  // return user device's prefer color scheme
   return window.matchMedia("(prefers-color-scheme: dark)").matches
     ? "dark"
     : "light";
@@ -18,30 +11,33 @@ function getPreferTheme() {
 
 let themeValue = getPreferTheme();
 
+function reflectPreference() {
+  document.firstElementChild.setAttribute("data-theme", themeValue);
+  document.querySelector("#theme-btn")?.setAttribute("aria-label", themeValue);
+}
+
 function setPreference() {
   localStorage.setItem("theme", themeValue);
   reflectPreference();
 }
 
-function reflectPreference() {
-  document.firstElementChild.setAttribute("data-theme", themeValue);
-
-  document.querySelector("#theme-btn")?.setAttribute("aria-label", themeValue);
-}
-
 // set early so no page flashes / CSS is made aware
 reflectPreference();
 
-document.addEventListener("astro:page-load", () => {
-  // set on load so screen readers can get the latest value on the button
-  reflectPreference();
-
-  // now this script can find and listen for clicks on the control
-  document.querySelector("#theme-btn")?.addEventListener("click", () => {
-    themeValue = themeValue === "light" ? "dark" : "light";
-    setPreference();
-  });
+// single delegated listener: survives client-side page swaps, never doubles up
+document.addEventListener("click", e => {
+  if (!e.target.closest("#theme-btn")) return;
+  themeValue = themeValue === "light" ? "dark" : "light";
+  setPreference();
 });
+
+// carry the current theme onto the incoming page before it is swapped in
+document.addEventListener("astro:before-swap", e => {
+  e.newDocument.documentElement.setAttribute("data-theme", themeValue);
+});
+
+document.addEventListener("astro:after-swap", reflectPreference);
+document.addEventListener("astro:page-load", reflectPreference);
 
 // sync with system changes
 window

@@ -26,6 +26,9 @@ module.exports = {
         base: withOpacity("--color-text-base"),
         accent: withOpacity("--color-accent"),
         inverted: withOpacity("--color-fill"),
+        muted: withOpacity("--color-text-muted"),
+        heading: withOpacity("--color-heading"),
+        link: withOpacity("--color-link"),
       },
     },
     backgroundColor: {
@@ -35,6 +38,13 @@ module.exports = {
         inverted: withOpacity("--color-text-base"),
         card: withOpacity("--color-card"),
         "card-muted": withOpacity("--color-card-muted"),
+      },
+      transparent: "transparent",
+    },
+    ringColor: {
+      skin: {
+        line: withOpacity("--color-border"),
+        accent: withOpacity("--color-accent"),
       },
     },
     outlineColor: {
@@ -53,11 +63,20 @@ module.exports = {
       skin: {
         base: withOpacity("--color-text-base"),
         accent: withOpacity("--color-accent"),
+        link: withOpacity("--color-link"),
       },
       transparent: "transparent",
     },
     fontFamily: {
-      mono: ["IBM Plex Mono", "monospace"],
+      sans: [
+        "ui-sans-serif",
+        "system-ui",
+        "-apple-system",
+        "Segoe UI",
+        "Helvetica Neue",
+        "sans-serif",
+      ],
+      mono: ["IBM Plex Mono", "ui-monospace", "monospace"],
     },
     // },
   },

@@ -2,71 +2,63 @@
 import Layout from "@layouts/Layout.astro";
 import Header from "@components/Header.astro";
 import Footer from "@components/Footer.astro";
-import Hr from "@components/Hr.astro";
+import Card from "@components/Card.astro";
 import Socials from "@components/Socials.astro";
+import getSortedPosts from "@utils/getSortedPosts";
+import slugify from "@utils/slugify";
 import { SOCIALS } from "@config";
+import { getCollection } from "astro:content";
 
 const socialCount = SOCIALS.filter(social => social.active).length;
+
+const posts = await getCollection("blog", ({ data }) => !data.draft);
+const recentPosts = getSortedPosts(posts).slice(0, 5);
 ---
 
 <Layout>
-  <Header activeNav="about" />
+  <Header activeNav="home" />
   <main id="main-content">
-    <section id="hero">
-      <h1>Cole Carlson</h1>
-      <p>
-        I'm a Full-Stack Software Engineer from Minnesota. I love building web applications using C#, ASP .NET Core, React, TypeScript,
-        and TailwindCSS. I'm currently working as a Software Engineer at <a href="https://www.collinsaerospace.com/">Collins Aerospace</a> in Minneapolis, MN.
-      </p>
-      <p>
-        I'm an avid gym goer and am always looking for ways to improve myself. Feel free to reach out to me on any of my socials below!
-      </p>
+    <section id="hero" aria-labelledby="hero-title">
+      <p class="eyebrow">Software engineer &middot; Minnesota</p>
+      <h1 id="hero-title" class="display-title mt-3">
+        Hi, I'm Cole. I build software that holds up.
+      </h1>
+      <div class="hero-body">
+        <p>
+          I'm a full-stack engineer working on backend systems at Medtronic.
+          Most of my time goes to C#, .NET, React, and TypeScript.
+        </p>
+        <p class="text-skin-muted">
+          I write here about what I'm building, what I'm learning, and the
+          occasional thing I got wrong. More <a href="/about" class="quiet-link">about me</a>.
+        </p>
+      </div>
       {
         socialCount > 0 && (
           <div class="social-wrapper">
-            <div class="social-links">Social Links:</div>
+            <span class="eyebrow text-skin-muted">Elsewhere</span>
             <Socials />
           </div>
         )
       }
     </section>
 
-    <Hr />
-
-    <section id="skills">
-      <h2>Skills</h2>
-      <div class="skills-grid">
-        <div class="skill-group">
-          <h3>Languages</h3>
-          <p>JavaScript / TypeScript, C#, Java, Python, C, SQL, HTML, CSS</p>
-        </div>
-        <div class="skill-group">
-          <h3>Databases</h3>
-          <p>MySQL, MongoDB / NoSQL, Oracle, SQL Server</p>
-        </div>
-        <div class="skill-group">
-          <h3>Frameworks &amp; Tools</h3>
-          <p>React, Vue, jQuery, React Native, .NET Core, Spring, Django, Entity Framework, Git, Jira</p>
-        </div>
+    <section id="recent" aria-labelledby="recent-title">
+      <div class="section-head">
+        <h2 id="recent-title" class="section-title">Recent writing</h2>
+        <a href="/blog" class="quiet-link">All posts &rarr;</a>
       </div>
-    </section>
-
-    <Hr />
-
-    <section id="education">
-      <h2>Education</h2>
-      <div class="edu-entry">
-        <div class="edu-header">
-          <h3>University of St. Thomas</h3>
-          <span class="edu-location">St. Paul, MN</span>
-        </div>
-        <p class="edu-degree">B.S. in Computer Science &mdash; Minor in Electrical Engineering</p>
-        <p class="edu-dates">Sep. 2019 &ndash; May 2023</p>
-        <ul>
-          <li>Dean's List (Fall 2021 &ndash; Spring 2023)</li>
-          <li>GPA: 3.8</li>
-        </ul>
-      </div>
+      {
+        recentPosts.length > 0 ? (
+          <ul>
+            {recentPosts.map(({ data }) => (
+              <Card href={`/blog/${slugify(data)}`} frontmatter={data} />
+            ))}
+          </ul>
+        ) : (
+          <p class="text-skin-muted">Nothing published yet.</p>
+        )
+      }
     </section>
   </main>
 
@@ -74,71 +66,16 @@ const socialCount = SOCIALS.filter(social => social.active).length;
 </Layout>
 
 <style>
-  /* ===== Main wrapper ===== */
-  #main-content {
-    @apply mx-auto w-full max-w-3xl px-4 pb-12;
+  #hero-title {
+    @apply text-skin-heading;
   }
-
-  /* ===== Hero Section ===== */
-  #hero {
-    @apply pb-6 pt-8;
-  }
-  #hero h1 {
-    @apply my-4 inline-block text-3xl font-bold sm:my-8 sm:text-5xl;
-  }
-  #hero p {
-    @apply my-2;
+  .hero-body {
+    @apply mt-6 max-w-2xl space-y-4 text-lg leading-8;
   }
   .social-wrapper {
-    @apply mt-4 flex flex-col sm:flex-row sm:items-center;
+    @apply mt-6 flex flex-wrap items-center gap-x-3;
   }
-  .social-links {
-    @apply mb-1 mr-2 whitespace-nowrap sm:mb-0;
-  }
-
-  /* ===== Skills Section ===== */
-  #skills {
-    @apply pb-6 pt-12;
-  }
-  #skills h2 {
-    @apply text-2xl font-semibold tracking-wide;
-  }
-  .skills-grid {
-    @apply mt-4 space-y-4;
-  }
-  .skill-group h3 {
-    @apply text-base font-semibold text-skin-accent;
-  }
-  .skill-group p {
-    @apply mt-1 text-sm;
-  }
-
-  /* ===== Education Section ===== */
-  #education {
-    @apply pb-12 pt-12;
-  }
-  #education h2 {
-    @apply text-2xl font-semibold tracking-wide;
-  }
-  .edu-entry {
-    @apply mt-4;
-  }
-  .edu-header {
-    @apply flex flex-wrap items-baseline gap-x-3;
-  }
-  .edu-header h3 {
-    @apply text-lg font-semibold;
-  }
-  .edu-location {
-    @apply text-sm opacity-70;
-  }
-  .edu-degree {
-    @apply mt-1 font-medium;
-  }
-  .edu-dates {
-    @apply text-sm opacity-70;
-  }
-  #education ul {
-    @apply mt-2 list-disc space-y-1 pl-5 text-sm;
+  #recent {
+    @apply mt-20;
   }
 </style>
