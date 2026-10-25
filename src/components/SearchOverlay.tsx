@@ -1,6 +1,7 @@
 import Fuse from "fuse.js";
 import { useEffect, useRef, useState, useMemo } from "react";
 import slugify from "@utils/slugify";
+import { LOCALE } from "@config";
 import type { BlogFrontmatter } from "@content/_schemas";
 
 export type SearchItem = {
@@ -80,20 +81,18 @@ export default function SearchOverlay({ searchList }: Props) {
 
   return (
     <div
-      className="fixed inset-0 z-50 bg-skin-fill bg-opacity-[0.97] px-4"
+      className="fixed inset-0 z-50 overflow-y-auto bg-skin-fill bg-opacity-[0.97] px-6 backdrop-blur-sm sm:px-8"
       onClick={e => {
         if (e.target === e.currentTarget) close();
       }}
     >
-      <div className="mx-auto mt-24 w-full max-w-2xl">
+      <div className="mx-auto mt-16 w-full max-w-2xl sm:mt-24">
         {/* Header row */}
-        <div className="mb-6 flex items-center justify-between">
-          <span className="text-xs uppercase tracking-widest text-skin-base opacity-60">
-            Search
-          </span>
+        <div className="section-head !mb-4">
+          <span className="eyebrow">Search</span>
           <button
             onClick={close}
-            className="text-xs tracking-wide text-skin-base opacity-60 transition-opacity hover:opacity-90"
+            className="focus-outline rounded border border-skin-line px-2 py-0.5 font-mono text-xs text-skin-muted transition-colors hover:border-skin-accent hover:text-skin-link"
             aria-label="Close search"
           >
             esc
@@ -101,11 +100,13 @@ export default function SearchOverlay({ searchList }: Props) {
         </div>
 
         {/* Input */}
-        <label className="relative block">
-          <span className="absolute inset-y-0 left-0 flex items-center opacity-50">
+        <label className="group relative block">
+          <span className="sr-only">Search posts</span>
+          <span className="pointer-events-none absolute inset-y-0 left-0 flex items-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5 fill-skin-base"
+              viewBox="0 0 24 24"
+              className="!h-5 !w-5 !fill-skin-accent opacity-80"
               aria-hidden="true"
             >
               <path d="M19.023 16.977a35.13 35.13 0 0 1-1.367-1.384c-.372-.378-.596-.653-.596-.653l-2.8-1.337A6.962 6.962 0 0 0 16 9c0-3.859-3.14-7-7-7S2 5.141 2 9s3.14 7 7 7c1.763 0 3.37-.66 4.603-1.739l1.337 2.8s.275.224.653.596c.387.363.896.854 1.384 1.367l1.358 1.392.604.646 2.121-2.121-.646-.604c-.379-.372-.885-.866-1.391-1.36zM9 14c-2.757 0-5-2.243-5-5s2.243-5 5-5 5 2.243 5 5-2.243 5-5 5z" />
@@ -113,7 +114,7 @@ export default function SearchOverlay({ searchList }: Props) {
           </span>
           <input
             ref={inputRef}
-            className="bg-transparent w-full border-b border-skin-line py-3 pl-8 pr-4 text-xl text-skin-base placeholder:text-skin-base placeholder:opacity-40 focus:border-skin-accent focus:outline-none"
+            className="w-full border-b border-dotted border-skin-line bg-transparent py-3 pl-8 pr-4 text-2xl font-bold tracking-[-0.03em] text-skin-heading placeholder:font-normal placeholder:text-skin-muted placeholder:opacity-60 focus:border-solid focus:border-skin-accent focus:outline-none"
             placeholder="Search posts..."
             type="text"
             value={inputVal}
@@ -124,47 +125,67 @@ export default function SearchOverlay({ searchList }: Props) {
 
         {/* Result count */}
         {inputVal.length > 1 && (
-          <p className="mt-5 text-xs tracking-wide text-skin-base opacity-60">
+          <p className="mt-5 font-mono text-xs text-skin-muted">
             {searchResults.length} result{searchResults.length !== 1 ? "s" : ""}{" "}
             for &ldquo;{inputVal}&rdquo;
           </p>
         )}
 
         {/* Results list */}
-        <ul className="mt-4 max-h-[55vh] overflow-y-auto">
-          {searchResults.map(({ item, refIndex }) => (
-            <li
-              key={`${refIndex}-${slugify(item.data)}`}
-              className="border-b border-skin-line last:border-0"
-            >
-              <a
-                href={`/blog/${slugify(item.data)}`}
-                className="group block py-4"
+        <ul className="mt-6 max-h-[55vh] overflow-y-auto">
+          {searchResults.map(({ item, refIndex }) => {
+            const date = new Date(item.data.pubDatetime);
+            return (
+              <li
+                key={`${refIndex}-${slugify(item.data)}`}
+                className="border-b border-dotted border-skin-line py-5 first:pt-0 last:border-b-0"
               >
-                <h3 className="font-medium text-skin-accent decoration-1 underline-offset-[6px] group-hover:underline">
-                  {item.title}
-                </h3>
+                <div className="flex flex-col gap-x-4 sm:flex-row sm:items-baseline">
+                  <time
+                    dateTime={date.toISOString()}
+                    className="shrink-0 text-sm text-skin-muted sm:w-[120px]"
+                  >
+                    {date.toLocaleDateString(LOCALE, {
+                      year: "numeric",
+                      month: "short",
+                      day: "numeric",
+                    })}
+                  </time>
+                  <h3 className="text-base font-medium text-skin-base">
+                    <a
+                      href={`/blog/${slugify(item.data)}`}
+                      className="ink-link"
+                      onClick={close}
+                    >
+                      {item.title}
+                    </a>
+                  </h3>
+                </div>
                 {item.description && (
-                  <p className="mt-1 line-clamp-1 text-sm text-skin-base opacity-70">
+                  <p className="mt-2 line-clamp-2 max-w-xl text-sm leading-6 text-skin-muted sm:ml-[136px]">
                     {item.description}
                   </p>
                 )}
-              </a>
-            </li>
-          ))}
+              </li>
+            );
+          })}
         </ul>
 
         {/* Empty state */}
         {inputVal.length > 1 && searchResults.length === 0 && (
-          <p className="mt-12 text-center text-sm text-skin-base opacity-50">
-            No results found
+          <p className="mt-4 text-sm text-skin-muted">
+            Nothing matched. Try another word, or browse{" "}
+            <a href="/tags" className="quiet-link" onClick={close}>
+              tags
+            </a>
+            .
           </p>
         )}
 
         {/* Idle hint */}
         {inputVal.length === 0 && (
-          <p className="mt-12 text-center text-sm text-skin-base opacity-50">
-            Start typing to search posts
+          <p className="mt-4 text-sm text-skin-muted">
+            Start typing to search posts by title or description.
           </p>
         )}
       </div>
