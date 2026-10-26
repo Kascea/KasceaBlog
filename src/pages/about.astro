@@ -38,29 +38,52 @@ const jobs = [
 	},
 ];
 
-const education = {
-	school: "University of St. Thomas",
-	location: "St. Paul, MN",
-	degree: "B.S. Computer Science, Minor in Electrical Engineering",
-	dates: "Sep 2019 – May 2023",
-};
+const education = [
+	{
+		school: "Georgia Institute of Technology",
+		location: "Online",
+		degree: "M.S. Computer Science, Computing Systems",
+		dates: "Present",
+	},
+	{
+		school: "University of St. Thomas",
+		location: "St. Paul, MN",
+		degree: "B.S. Computer Science, Minor in Electrical Engineering",
+		dates: "Sep 2019 – May 2023",
+	},
+];
 ---
 
 <Layout title={`About | ${SITE.title}`}>
 	<Header activeNav="about" />
 	<main id="main-content">
 		<section id="intro">
-			<p class="eyebrow">About</p>
+			<p class="eyebrow location">
+				About <span aria-hidden="true">&middot;</span>
+				<svg
+					viewBox="0 0 88 96"
+					stroke-width="5"
+					stroke-linejoin="round"
+					aria-hidden="true"
+				>
+					<path
+						d="M1 6.4 5.5 38.4 8.3 54.4 9.4 65.6 9.4 94.4 66.9 94.4 66 88.8 60 83.2 55 78.4 49.5 74.4 50 60.8 55 52.8 55 44 57.2 42.4 69.3 33.6 84.7 23.2 85.8 22.4 80.3 20.8 71.5 19.2 63.8 21.6 51.7 15.2 42.9 13.6 29.7 11.2 27.5 8.8 26 4 26 .5 23.7 .5 23.7 6.4Z"
+					/>
+				</svg>
+				Minnesota
+			</p>
 			<h1 class="page-title mt-3">Cole Carlson</h1>
 			<div class="intro-body">
 				<p>
-					I'm a software engineer in Minnesota, currently working on backend
-					systems at Medtronic. Before that I spent a few years at Collins
-					Aerospace building internal tools in C# and ASP.NET.
+					I'm a software engineer in Minnesota who builds distributed systems.
+					I started at Collins Aerospace, building the software that ran a
+					$1M-per-day manufacturing plant. Now at Medtronic, I work on the
+					systems that deliver firmware to medical devices and collect their
+					logs at scale.
 				</p>
 				<p>
-					Outside of work I'm usually at the gym or tinkering on something new.
-					Feel free to reach out on any of the links below.
+					Outside of work I'm usually at the gym, watching the timberwolves or
+					working on home improvement projects.
 				</p>
 			</div>
 		</section>
@@ -98,7 +121,7 @@ const education = {
 										<h4>{role.title}</h4>
 										<span class="meta font-mono">{role.dates}</span>
 									</div>
-									</div>
+								</div>
 							))}
 							<div class="role">
 								<p class="summary">{job.summary}</p>
@@ -106,18 +129,22 @@ const education = {
 						</div>
 					))
 				}
-				<div class="job">
-					<div class="job-header">
-						<h3>{education.school}</h3>
-						<span class="meta">{education.location}</span>
-					</div>
-					<div class="role">
-						<div class="role-header">
-							<h4>{education.degree}</h4>
-							<span class="meta font-mono">{education.dates}</span>
+				{
+					education.map(school => (
+						<div class="job">
+							<div class="job-header">
+								<h3>{school.school}</h3>
+								<span class="meta">{school.location}</span>
+							</div>
+							<div class="role">
+								<div class="role-header">
+									<h4>{school.degree}</h4>
+									<span class="meta font-mono">{school.dates}</span>
+								</div>
+							</div>
 						</div>
-					</div>
-				</div>
+					))
+				}
 			</div>
 		</section>
 
@@ -141,7 +168,16 @@ const education = {
 
 <style>
 	.intro-body {
-		@apply mt-4 max-w-2xl space-y-3 text-lg leading-8;
+		@apply mt-4 max-w-2xl space-y-6 text-lg leading-8;
+	}
+	.location {
+		@apply flex items-center gap-2;
+	}
+	.location svg {
+		@apply h-4 w-4;
+		fill: currentColor;
+		fill-opacity: 0.2;
+		stroke: currentColor;
 	}
 	section + section {
 		@apply mt-12;

@@ -16,66 +16,68 @@ const recentPosts = getSortedPosts(posts).slice(0, 5);
 ---
 
 <Layout>
-  <Header activeNav="home" />
-  <main id="main-content">
-    <section id="hero" aria-labelledby="hero-title">
-      <p class="eyebrow">Software engineer &middot; Minnesota</p>
-      <h1 id="hero-title" class="display-title mt-3">
-        Hi, I'm Cole. I build software that holds up.
-      </h1>
-      <div class="hero-body">
-        <p>
-          I'm a full-stack engineer working on backend systems at Medtronic.
-          Most of my time goes to C#, .NET, React, and TypeScript.
-        </p>
-        <p class="text-skin-muted">
-          I write here about what I'm building, what I'm learning, and the
-          occasional thing I got wrong. More <a href="/about" class="quiet-link">about me</a>.
-        </p>
-      </div>
-      {
-        socialCount > 0 && (
-          <div class="social-wrapper">
-            <span class="eyebrow text-skin-muted">Elsewhere</span>
-            <Socials />
-          </div>
-        )
-      }
-    </section>
+	<Header activeNav="home" />
+	<main id="main-content">
+		<section id="hero" aria-labelledby="hero-title">
+			<p class="eyebrow">Systems &middot; Product &middot; Impact</p>
+			<h1 id="hero-title" class="display-title mt-3">
+				I build systems people depend on.
+			</h1>
+			<div class="hero-body">
+				<p>
+					I'm a software engineer in Minnesota who builds distributed systems,
+					currently at Medtronic.
+				</p>
+				<p class="text-skin-muted">
+					I write here about what I'm building, what I'm learning, and the
+					occasional thing I got wrong. More <a href="/about" class="quiet-link"
+						>about me</a
+					>.
+				</p>
+			</div>
+			{
+				socialCount > 0 && (
+					<div class="social-wrapper">
+						<span class="eyebrow text-skin-muted">Elsewhere</span>
+						<Socials />
+					</div>
+				)
+			}
+		</section>
 
-    <section id="recent" aria-labelledby="recent-title">
-      <div class="section-head">
-        <h2 id="recent-title" class="section-title">Recent writing</h2>
-        <a href="/blog" class="quiet-link">All posts &rarr;</a>
-      </div>
-      {
-        recentPosts.length > 0 ? (
-          <ul>
-            {recentPosts.map(({ data }) => (
-              <Card href={`/blog/${slugify(data)}`} frontmatter={data} />
-            ))}
-          </ul>
-        ) : (
-          <p class="text-skin-muted">Nothing published yet.</p>
-        )
-      }
-    </section>
-  </main>
+		<section id="recent" aria-labelledby="recent-title">
+			<div class="section-head">
+				<h2 id="recent-title" class="section-title">Recent writing</h2>
+				<a href="/blog" class="quiet-link">All posts &rarr;</a>
+			</div>
+			{
+				recentPosts.length > 0 ? (
+					<ul>
+						{recentPosts.map(({ data }) => (
+							<Card href={`/blog/${slugify(data)}`} frontmatter={data} />
+						))}
+					</ul>
+				) : (
+					<p class="text-skin-muted">Nothing published yet.</p>
+				)
+			}
+		</section>
+	</main>
 
-  <Footer />
+	<Footer />
 </Layout>
 
 <style>
-  #hero-title {
-    @apply text-skin-heading;
-  }
-  .hero-body {
-    @apply mt-6 max-w-2xl space-y-4 text-lg leading-8;
-  }
-  .social-wrapper {
-    @apply mt-6 flex flex-wrap items-center gap-x-3;
-  }
-  #recent {
-    @apply mt-20;
-  }
+	#hero-title {
+		@apply text-skin-heading;
+	}
+	.hero-body {
+		@apply mt-6 max-w-2xl space-y-6 text-lg leading-8;
+	}
+	.social-wrapper {
+		@apply mt-6 flex flex-wrap items-center gap-x-3;
+	}
+	#recent {
+		@apply mt-20;
+	}
 </style>

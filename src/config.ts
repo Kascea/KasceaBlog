@@ -45,10 +45,4 @@ export const SOCIALS: SocialObjects = [
     linkTitle: `${SITE.title} on LinkedIn`,
     active: true,
   },
-  {
-    name: "Mail",
-    href: "mailto:cole@kascea.com",
-    linkTitle: `Send an email to ${SITE.title}`,
-    active: true,
-  },
 ];
