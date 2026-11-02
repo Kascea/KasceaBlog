@@ -22,7 +22,6 @@ interface SearchResult {
 export default function SearchOverlay({ searchList }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const [inputVal, setInputVal] = useState("");
-  const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const fuse = useMemo(
@@ -36,12 +35,19 @@ export default function SearchOverlay({ searchList }: Props) {
     [searchList]
   );
 
+  // Run fuzzy search
+  const searchResults: SearchResult[] = useMemo(
+    () => (inputVal.length > 1 ? fuse.search(inputVal) : []),
+    [inputVal, fuse]
+  );
+
+  const close = () => setIsOpen(false);
+
   // Listen for open event from header button
   useEffect(() => {
     const handleOpen = () => {
       setIsOpen(true);
       setInputVal("");
-      setSearchResults([]);
     };
     window.addEventListener("search-open", handleOpen);
     return () => window.removeEventListener("search-open", handleOpen);
@@ -68,14 +74,6 @@ export default function SearchOverlay({ searchList }: Props) {
       document.body.style.overflow = "";
     };
   }, [isOpen]);
-
-  // Run fuzzy search
-  useEffect(() => {
-    const results = inputVal.length > 1 ? fuse.search(inputVal) : [];
-    setSearchResults(results);
-  }, [inputVal, fuse]);
-
-  const close = () => setIsOpen(false);
 
   if (!isOpen) return null;
 
@@ -153,7 +151,7 @@ export default function SearchOverlay({ searchList }: Props) {
                   </time>
                   <h3 className="text-base font-medium text-skin-base">
                     <a
-                      href={`/blog/${slugify(item.data)}`}
+                      href={`/posts/${slugify(item.data)}`}
                       className="ink-link"
                       onClick={close}
                     >

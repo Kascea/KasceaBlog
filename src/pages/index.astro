@@ -48,13 +48,13 @@ const recentPosts = getSortedPosts(posts).slice(0, 5);
 		<section id="recent" aria-labelledby="recent-title">
 			<div class="section-head">
 				<h2 id="recent-title" class="section-title">Recent writing</h2>
-				<a href="/blog" class="quiet-link">All posts &rarr;</a>
+				<a href="/posts" class="quiet-link">All posts &rarr;</a>
 			</div>
 			{
 				recentPosts.length > 0 ? (
 					<ul>
 						{recentPosts.map(({ data }) => (
-							<Card href={`/blog/${slugify(data)}`} frontmatter={data} />
+							<Card href={`/posts/${slugify(data)}`} frontmatter={data} />
 						))}
 					</ul>
 				) : (

@@ -22,15 +22,15 @@ const next = pageNum < totalPages ? "" : "disabled";
 
 type PostCard = { href: string; data: CollectionEntry<"blog">["data"] };
 const postCards: PostCard[] = posts.map((post: CollectionEntry<"blog">) => ({
-  href: `/blog/${slugify(post.data)}`,
+  href: `/posts/${slugify(post.data)}`,
   data: post.data,
 }));
 ---
 
-<Layout title={`Blog | ${SITE.title}`}>
-  <Header activeNav="blog" />
+<Layout title={`Posts | ${SITE.title}`}>
+  <Header activeNav="posts" />
   <Main
-    eyebrow="Blog"
+    eyebrow="Posts"
     pageTitle="Writing"
     pageDesc="Notes on software, things I'm building, and what I'm learning along the way."
   >
@@ -48,7 +48,7 @@ const postCards: PostCard[] = posts.map((post: CollectionEntry<"blog">) => ({
       <nav class="pagination-wrapper" aria-label="Pagination">
         <LinkButton
           disabled={prev === "disabled"}
-          href={`/blog${pageNum - 1 !== 1 ? "/" + (pageNum - 1) : ""}`}
+          href={`/posts${pageNum - 1 !== 1 ? "/" + (pageNum - 1) : ""}`}
           className={`mr-4 select-none ${prev}`}
           ariaLabel="Previous"
         >
@@ -59,7 +59,7 @@ const postCards: PostCard[] = posts.map((post: CollectionEntry<"blog">) => ({
         </LinkButton>
         <LinkButton
           disabled={next === "disabled"}
-          href={`/blog/${pageNum + 1}`}
+          href={`/posts/${pageNum + 1}`}
           className={`ml-4 select-none ${next}`}
           ariaLabel="Next"
         >

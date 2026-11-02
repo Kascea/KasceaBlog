@@ -13,6 +13,8 @@ export default defineConfig({
   redirects: {
     "/work": "/about#experience",
     "/projects": "/about#projects",
+    "/blog": "/posts",
+    "/blog/[slug]": "/posts/[slug]",
   },
   prefetch: {
     prefetchAll: true,

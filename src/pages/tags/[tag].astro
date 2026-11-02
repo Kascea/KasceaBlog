@@ -1,5 +1,5 @@
 ---
-import { CollectionEntry, getCollection } from "astro:content";
+import { type CollectionEntry, getCollection } from "astro:content";
 import Layout from "@layouts/Layout.astro";
 import Main from "@layouts/Main.astro";
 import Header from "@components/Header.astro";
@@ -36,7 +36,7 @@ const tagPosts = getPostsByTag(posts, tag);
 ---
 
 <Layout title={`Tag:${tag} | ${SITE.title}`}>
-  <Header activeNav="blog" />
+  <Header activeNav="posts" />
   <Main
     eyebrow="Tag"
     pageTitle={`#${tag}`}
@@ -45,7 +45,7 @@ const tagPosts = getPostsByTag(posts, tag);
     <ul>
       {
         tagPosts.map(({ data }) => (
-          <Card href={`/blog/${slugify(data)}`} frontmatter={data} />
+          <Card href={`/posts/${slugify(data)}`} frontmatter={data} />
         ))
       }
     </ul>

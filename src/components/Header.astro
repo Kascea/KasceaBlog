@@ -2,7 +2,7 @@
 import { SITE } from "@config";
 
 export interface Props {
-  activeNav?: "home" | "about" | "blog";
+  activeNav?: "home" | "about" | "posts";
 }
 
 const { activeNav } = Astro.props;
@@ -24,7 +24,7 @@ const { activeNav } = Astro.props;
     <nav id="menu-items" class="display-none sm:flex" aria-label="Main menu">
       <a href="/" class={activeNav === "home" ? "active" : ""}>Home</a>
       <a href="/about" class={activeNav === "about" ? "active" : ""}>About</a>
-      <a href="/blog" class={activeNav === "blog" ? "active" : ""}>Blog</a>
+      <a href="/posts" class={activeNav === "posts" ? "active" : ""}>Posts</a>
     </nav>
     <button
       id="search-btn"

@@ -14,8 +14,8 @@ let tags = getUniqueTags(posts);
 ---
 
 <Layout title={`Tags | ${SITE.title}`}>
-  <Header activeNav="blog" />
-  <Main eyebrow="Blog" pageTitle="Tags" pageDesc="Browse posts by topic.">
+  <Header activeNav="posts" />
+  <Main eyebrow="Posts" pageTitle="Tags" pageDesc="Browse posts by topic.">
     <ul class="flex flex-wrap gap-2">
       {tags.map(tag => <Tag name={tag} size="lg" />)}
     </ul>

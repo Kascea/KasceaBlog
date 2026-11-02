@@ -12,7 +12,7 @@ export async function GET() {
     site: SITE.website,
     items: sortedPosts.map(({ data }) => ({
       title: data.title,
-      description: data.description,
+      description: data.description ?? undefined,
       pubDate: new Date(data.pubDatetime),
     })),
   });
