@@ -33,3 +33,8 @@ pnpm-debug.log*
 !.yarn/sdks
 !.yarn/versions
 .pnp.*
+
+# Cloudflare
+.cloudflare/
+.wrangler/
+.dev.vars*

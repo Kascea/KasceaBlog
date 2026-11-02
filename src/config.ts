@@ -1,7 +1,7 @@
 import type { ProjectsConfig, Site, SocialObjects } from "./types";
 
 export const SITE: Site = {
-  website: "https://astro-paper.pages.dev/",
+  website: "https://kascea.dev/",
   author: "Cole Carlson",
   desc: "A minimal, responsive and SEO-friendly Astro blog theme.",
   title: "Kascea",
