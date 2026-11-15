@@ -1,0 +1,35 @@
+%!TEX TS-program = xelatex
+%!TEX encoding = UTF-8 Unicode
+% Built on the Awesome CV template (https://github.com/posquit0/Awesome-CV), CC BY-SA 4.0
+% Build: tectonic resume.tex
+
+\documentclass[11pt, a4paper]{awesome-cv}
+
+\geometry{left=1.4cm, top=.8cm, right=1.4cm, bottom=1.8cm, footskip=.5cm}
+\fontdir[fonts/]
+\colorlet{awesome}{awesome-darknight}
+\setbool{acvSectionColorHighlight}{true}
+\renewcommand{\acvHeaderSocialSep}{\quad\textbar\quad}
+
+\name{Cole}{Carlson}
+\position{Software Engineer}
+\address{5819 Cambridge Street, St.~Louis Park, MN 55416}
+\mobile{763-269-2895}
+\email{colethomascarlson@gmail.com}
+\github{Kascea}
+\linkedin{coletcarlson}
+
+\begin{document}
+
+\makecvheader[C]
+\makecvfooter
+  {\today}
+  {Cole Carlson~~~·~~~Résumé}
+  {\thepage}
+
+\input{resume/skills}
+\input{resume/experience}
+\input{resume/projects}
+\input{resume/education}
+
+\end{document}
